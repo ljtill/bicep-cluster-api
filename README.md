@@ -2,7 +2,7 @@
 
 ### Getting Started
 
-Before deploying the Drupal resources, the parameters file `src/parameters/main.json` needs to be updated.
+Before deploying the Kubernetes resources, the parameters file `src/parameters/main.json` needs to be updated.
 
 #### Using locally with Azure CLI
 
