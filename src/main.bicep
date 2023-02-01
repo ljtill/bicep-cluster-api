@@ -23,6 +23,8 @@ module components './modules/components/resources.bicep' = {
   params: {
     defaults: defaults
     settings: settings
+    username: username
+    password: password
   }
   dependsOn: [
     groups
@@ -40,3 +42,8 @@ var defaults = loadJsonContent('defaults.json')
 // ----------
 
 param settings object
+
+@secure()
+param username string
+@secure()
+param password string

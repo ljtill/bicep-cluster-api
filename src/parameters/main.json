@@ -9,7 +9,81 @@
                     "name": "",
                     "location": ""
                 },
-                "resources": {},
+                "resources": {
+                    "securityGroup": {
+                        "name": "",
+                        "rules": [
+                            {
+                                "name": "AllowCidrBlockSSHInbound",
+                                "access": "Allow",
+                                "direction": "Inbound",
+                                "protocol": "Tcp",
+                                "priority": "100",
+                                "sourcePortRange": "*",
+                                "sourceAddressPrefix": "",
+                                "destinationAddressPrefix": "VirtualNetwork",
+                                "destinationPortRange": "22"
+                            }
+                        ]
+                    },
+                    "virtualNetwork": {
+                        "name": "",
+                        "addressPrefix": "10.224.0.0/12",
+                        "subnet": {
+                            "name": "default",
+                            "addressPrefix": "10.224.0.0/16"
+                        }
+                    },
+                    "ipAddress": {
+                        "name": ""
+                    },
+                    "loadBalancer": {
+                        "name": ""
+                    },
+                    "networkInterfaces": [
+                        {
+                            "name": "",
+                            "externalPort": "3000"
+                        },
+                        {
+                            "name": "",
+                            "externalPort": "3001"
+                        },
+                        {
+                            "name": "",
+                            "externalPort": "3002"
+                        }
+                    ],
+                    "virtualMachines": [
+                        {
+                            "name": "",
+                            "size": "Standard_D8s_v5",
+                            "osDisk": {
+                                "name": ""
+                            },
+                            "zone": "1",
+                            "type": "system"
+                        },
+                        {
+                            "name": "",
+                            "size": "Standard_D8s_v5",
+                            "osDisk": {
+                                "name": ""
+                            },
+                            "zone": "2",
+                            "type": "system"
+                        },
+                        {
+                            "name": "",
+                            "size": "Standard_D8s_v5",
+                            "osDisk": {
+                                "name": ""
+                            },
+                            "zone": "3",
+                            "type": "system"
+                        }
+                    ]
+                },
                 "tags": {}
             }
         }
