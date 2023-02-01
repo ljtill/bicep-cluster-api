@@ -7,7 +7,7 @@ Before deploying the Kubernetes resources, the parameters file `src/parameters/m
 #### Using locally with Azure CLI
 
 ```bash
-az deployment sub validate \
+az deployment sub create \
     --name 'Microsoft.Bicep' \
     --location 'uksouth' \
     --template-file './src/main.bicep' \
