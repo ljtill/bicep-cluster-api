@@ -2,12 +2,12 @@
 
 ### Getting Started
 
-Before deploying the Drupal resources, the parameters file `src/parameters/main.json` needs to be updated.
+Before deploying the Kubernetes resources, the parameters file `src/parameters/main.json` needs to be updated.
 
 #### Using locally with Azure CLI
 
 ```bash
-az deployment sub validate \
+az deployment sub create \
     --name 'Microsoft.Bicep' \
     --location 'uksouth' \
     --template-file './src/main.bicep' \
