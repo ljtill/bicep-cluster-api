@@ -12,5 +12,8 @@ az deployment sub create \
     --location 'uksouth' \
     --template-file './src/main.bicep' \
     --parameters \
-      '@./src/parameters/main.json'
+      '@./src/parameters/main.json' \
+    --parameters \
+      username='replace' \
+      password='replace'
 ```
