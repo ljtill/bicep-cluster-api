@@ -12,8 +12,5 @@ az deployment sub validate \
     --location 'uksouth' \
     --template-file './src/main.bicep' \
     --parameters \
-      '@./src/parameters/main.json' \
-    --parameters \
-      username=replace \
-      password=replace
+      '@./src/parameters/main.json'
 ```
