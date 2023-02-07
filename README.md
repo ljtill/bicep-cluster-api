@@ -15,5 +15,5 @@ az deployment sub create \
       '@./src/parameters/main.json' \
     --parameters \
       username='replace' \
-      password='replace'
+      keydata=@/home/replace/.ssh/id_rsa.pub
 ```

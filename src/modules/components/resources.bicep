@@ -215,7 +215,17 @@ resource virtualMachines 'Microsoft.Compute/virtualMachines@2022-11-01' = [for (
     osProfile: {
       computerName: virtualMachine.name
       adminUsername: username
-      adminPassword: password
+      linuxConfiguration: {
+        disablePasswordAuthentication: true
+        ssh: {
+          publicKeys: [
+            {
+              keyData: keydata
+              path: '/home/${username}/.ssh/authorized_keys'
+            }
+          ]
+        }
+      }
     }
     diagnosticsProfile: {}
   }
@@ -223,7 +233,7 @@ resource virtualMachines 'Microsoft.Compute/virtualMachines@2022-11-01' = [for (
     virtualMachine.zone
   ]
   tags: {
-    type: virtualMachine.type
+    Type: virtualMachine.type
   }
 }]
 
@@ -237,4 +247,4 @@ param settings object
 @secure()
 param username string
 @secure()
-param password string
+param keydata string

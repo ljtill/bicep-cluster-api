@@ -24,7 +24,7 @@ module components './modules/components/resources.bicep' = {
     defaults: defaults
     settings: settings
     username: username
-    password: password
+    keydata: keydata
   }
   dependsOn: [
     groups
@@ -46,4 +46,4 @@ param settings object
 @secure()
 param username string
 @secure()
-param password string
+param keydata string
