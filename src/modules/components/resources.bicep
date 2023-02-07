@@ -216,6 +216,7 @@ resource virtualMachines 'Microsoft.Compute/virtualMachines@2022-11-01' = [for (
       computerName: virtualMachine.name
       adminUsername: username
       linuxConfiguration: {
+        disablePasswordAuthentication: true
         ssh: {
           publicKeys: [
             {
