@@ -1,5 +1,9 @@
 # Kubernetes
 
+This repository contains the platform components for deploying Kubernetes on Microsoft Azure with the kubeadm tooling.
+
+Provisiioning three system nodes, and two user nodepools across availability zones. This is an alternative approach to running Kubernetes on Azure.
+
 ### Getting Started
 
 Before deploying the Kubernetes resources, the parameters file `src/parameters/main.json` needs to be updated.
