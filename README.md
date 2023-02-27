@@ -1,8 +1,6 @@
 # Cluster API
 
-This repository contains the platform components for deploying Cluster API resources on Microsoft Azure with kubeadm tooling.
-
-Provisioning three system nodes, and two user nodepools across availability zones. This is an alternative approach to running Kubernetes on Azure.
+This repository contains platform components for utilizing the Kubernetes Cluster API with resources on Microsoft Azure.
 
 ### Getting Started
 
