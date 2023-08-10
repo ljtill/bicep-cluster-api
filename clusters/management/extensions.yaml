@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cluster-api
+  namespace: cluster-config
+spec:
+  interval: 5m
+  dependsOn:
+    - name: cluster-api-operator
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: manifests/extensions/cluster-api
+  prune: true
+  wait: false
