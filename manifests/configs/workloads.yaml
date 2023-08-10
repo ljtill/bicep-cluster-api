@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workloads
+  namespace: cluster-config
+data:
+  global_tenant_id:
+  global_subscription_id:
+  global_resource_group:
+  global_client_id:
+  global_public_key:
+  north_europe_cluster_name:
+  west_europe_cluster_name:

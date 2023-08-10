@@ -1,0 +1,42 @@
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha1
+kind: CoreProvider
+metadata:
+  name: cluster-api
+  namespace: capi-core-system
+spec:
+  version: v1.4.4
+  deployment:
+    containers:
+      - name: manager
+        args:
+          --feature-gates: "MachinePool=true,ClusterResourceSet=false,ClusterTopology=true,RuntimeSDK=false"
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha1
+kind: BootstrapProvider
+metadata:
+  name: kubeadm
+  namespace: capi-bootstrap-system
+spec:
+  version: v1.4.4
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha1
+kind: ControlPlaneProvider
+metadata:
+  name: kubeadm
+  namespace: capi-controlplane-system
+spec:
+  version: v1.4.4
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha1
+kind: InfrastructureProvider
+metadata:
+  name: azure
+  namespace: capi-azure-system
+spec:
+  version: v1.10.0
+  deployment:
+    containers:
+      - name: manager
+        args:
+          --feature-gates: "MachinePool=true,AKSResourceHealth=true,EdgeZone=false"
