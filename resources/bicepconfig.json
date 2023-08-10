@@ -1,0 +1,27 @@
+{
+  "analyzers": {
+    "core": {
+      "enabled": true,
+      "verbose": false,
+      "rules": {
+        "no-unused-params": {
+          "level": "off"
+        },
+        "no-loc-expr-outside-params": {
+          "level": "off"
+        },
+        "no-hardcoded-location": {
+          "level": "off"
+        }
+      }
+    }
+  },
+  "cloud": {
+    "currentProfile": "AzureCloud"
+  },
+  "experimentalFeaturesEnabled": {},
+  "moduleAliases": {
+    "ts": {},
+    "br": {}
+  }
+}
