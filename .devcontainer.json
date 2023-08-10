@@ -1,0 +1,24 @@
+{
+    "name": "Cluster API",
+    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "features": {
+        "ghcr.io/devcontainers/features/azure-cli:1": {
+            "installBicep": true
+        },
+        "ghcr.io/devcontainers/features/powershell:1": {
+            "modules": "Az"
+        },
+        "ghcr.io/ljtill/features/clusterctl:1": {},
+        "ghcr.io/ljtill/features/flux:1": {},
+        "ghcr.io/ljtill/features/helm:1": {},
+        "ghcr.io/ljtill/features/kubectl:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-bicep",
+                "ms-kubernetes-tools.vscode-aks-tools"
+            ]
+        }
+    }
+}
