@@ -7,6 +7,16 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: capi-bootstrap-system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: capi-controlplane-system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: capi-azure-system
 ---
 apiVersion: v1
