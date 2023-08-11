@@ -1,10 +1,10 @@
 # Cluster API
 
-This repository provides the source code for setting up Cluster API on Microsoft Azure using Terraform and Flux: You can use this repository to create a fully automated and scalable workflow for deploying and managing Kubernetes clusters on Azure.
+This repository provides the source code for setting up Cluster API on Microsoft Azure using Bicep and Flux: You can use this repository to create a fully automated and scalable workflow for deploying and managing Kubernetes clusters on Azure.
 
 The purpose of the repository is to:
 
-- Deploy the management cluster with Terraform
+- Deploy the management cluster with Bicep
 - Bootstrap it with Flux to pull in the Kubernetes manifests and apply them
 - Install Cluster API on top of the management cluster
 - Start deploying additional AKS clusters using Cluster API
@@ -40,7 +40,7 @@ az stack sub create \
   --name '' \
   --delete-all \
   --template-file './resources/main.bicep' \
-  --parameters './resources/main.bicepparams' \
+  --parameters './resources/main.bicepparam' \
   --location uksouth \
   --deny-settings-mode None
 ```
