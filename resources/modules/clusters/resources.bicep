@@ -74,22 +74,44 @@ resource flux 'Microsoft.KubernetesConfiguration/extensions@2023-05-01' = {
   }
 }
 
-resource configuration 'Microsoft.KubernetesConfiguration/fluxConfigurations@2022-11-01' = {
-  name: 'flux-system'
+resource management 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05-01' = {
+  name: 'management'
   scope: cluster
   properties: {
-    scope: 'namespace'
-    namespace: 'flux-system'
+    scope: 'cluster'
+    namespace: 'cluster-config'
     sourceKind: 'GitRepository'
     kustomizations: {
-      base: {
-        path: 'clusters/management'
+      'cert-manager': {
+        path: 'manifests/cert-manager'
         timeoutInSeconds: 600
         syncIntervalInSeconds: 600
         retryIntervalInSeconds: 600
         force: false
-        prune: false
+        prune: true
         dependsOn: []
+      }
+      'cluster-api-operator': {
+        path: 'manifests/cluster-api-operator'
+        timeoutInSeconds: 600
+        syncIntervalInSeconds: 600
+        retryIntervalInSeconds: 600
+        force: false
+        prune: true
+        dependsOn: [
+          'cert-manager'
+        ]
+      }
+      'cluster-api': {
+        path: 'manifests/cluster-api'
+        timeoutInSeconds: 600
+        syncIntervalInSeconds: 600
+        retryIntervalInSeconds: 600
+        force: false
+        prune: true
+        dependsOn: [
+          'cluster-api-operator'
+        ]
       }
     }
     gitRepository: {
@@ -99,6 +121,44 @@ resource configuration 'Microsoft.KubernetesConfiguration/fluxConfigurations@202
       url: 'https://github.com/ljtill/bicep-cluster-api.git'
     }
   }
+}
+
+resource workloads 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05-01' = {
+  name: 'workloads'
+  scope: cluster
+  properties: {
+    scope: 'cluster'
+    namespace: 'cluster-config'
+    sourceKind: 'GitRepository'
+    kustomizations: {
+      'cluster-api': {
+        path: 'clusters/workloads'
+        timeoutInSeconds: 600
+        syncIntervalInSeconds: 600
+        retryIntervalInSeconds: 600
+        force: false
+        prune: true
+        dependsOn: []
+        postBuild: {
+          substituteFrom: [
+            {
+              kind: 'ConfigMap'
+              name: 'workloads'
+            }
+          ]
+        }
+      }
+    }
+    gitRepository: {
+      repositoryRef: {
+        branch: 'main'
+      }
+      url: 'https://github.com/ljtill/bicep-cluster-api.git'
+    }
+  }
+  dependsOn: [
+    management
+  ]
 }
 
 // ---------
