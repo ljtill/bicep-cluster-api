@@ -5,7 +5,7 @@ metadata:
   name: cluster-api
   namespace: capi-core-system
 spec:
-  version: v1.5.0
+  version: "v1.5.0"
   deployment:
     containers:
       - name: manager
@@ -18,7 +18,7 @@ metadata:
   name: azure
   namespace: capi-azure-system
 spec:
-  version: v1.10.2
+  version: "v1.10.2"
   deployment:
     containers:
       - name: manager
