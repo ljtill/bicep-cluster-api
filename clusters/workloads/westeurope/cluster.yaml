@@ -19,7 +19,7 @@ spec:
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachinePool
 metadata:
-  name: system
+  name: ${cluster_name}
   namespace: capi-workload-clusters
 spec:
   clusterName: ${cluster_name}
@@ -32,6 +32,6 @@ spec:
       infrastructureRef:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: AzureManagedMachinePool
-        name: system
+        name: ${cluster_name}
         namespace: capi-workload-clusters
       version: v1.26.6
