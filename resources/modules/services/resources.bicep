@@ -8,12 +8,6 @@ targetScope = 'resourceGroup'
 // Resources
 // ---------
 
-// Managed Identity
-resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
-  name: resources.managedIdentity.name
-  location: 'uksouth'
-}
-
 // Container Registry
 resource registry 'Microsoft.ContainerRegistry/registries@2023-06-01-preview' = {
   name: resources.containerRegistry.name
@@ -31,6 +25,15 @@ resource assignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
     principalId: identity.properties.principalId
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', definitionIds.AcrPull)
   }
+}
+
+// ---------
+// Resources
+// ---------
+
+resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+  name: settings.resourceGroups.management.resources.managedIdentities.cluster.name
+  scope: resourceGroup(settings.resourceGroups.management.name)
 }
 
 // ---------
