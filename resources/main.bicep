@@ -39,22 +39,25 @@ module managementCluster './modules/clusters/management/resources.bicep' = {
     settings: settings
   }
   dependsOn: [
+    workloadClusters
     groups
   ]
 }
 
 // Resources - Services
-// module services './modules/services/resources.bicep' = {
-//   name: 'Microsoft.Resources.Services'
-//   scope: resourceGroup(settings.resourceGroups.services.name)
-//   params: {
-//     defaults: defaults
-//     settings: settings
-//   }
-//   dependsOn: [
-//     groups
-//   ]
-// }
+module services './modules/services/resources.bicep' = {
+  name: 'Microsoft.Resources.Services'
+  scope: resourceGroup(settings.resourceGroups.services.name)
+  params: {
+    defaults: defaults
+    settings: settings
+  }
+  dependsOn: [
+    workloadClusters
+    managementCluster
+    groups
+  ]
+}
 
 // ---------
 // Variables

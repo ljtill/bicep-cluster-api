@@ -32,7 +32,7 @@ resource assignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 // ---------
 
 resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
-  name: settings.resourceGroups.management.resources.managedIdentities.cluster.name
+  name: settings.resourceGroups.management.resources.managedIdentity.name
   scope: resourceGroup(settings.resourceGroups.management.name)
 }
 
