@@ -26,7 +26,7 @@ metadata:
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AzureManagedMachinePool
 metadata:
-  name: ${cluster_name}
+  name: system
   namespace: capi-workload-clusters
 spec:
   mode: System
