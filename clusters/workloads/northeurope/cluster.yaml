@@ -2,36 +2,36 @@
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
-  name: ${north_europe_cluster_name}
+  name: ${cluster_name}
   namespace: capi-workload-clusters
 spec:
   controlPlaneRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: AzureManagedControlPlane
-    name: ${north_europe_cluster_name}
+    name: ${cluster_name}
     namespace: capi-workload-clusters
   infrastructureRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: AzureManagedCluster
-    name: ${north_europe_cluster_name}
+    name: ${cluster_name}
     namespace: capi-workload-clusters
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachinePool
 metadata:
-  name: ${north_europe_cluster_name}
+  name: ${cluster_name}
   namespace: capi-workload-clusters
 spec:
-  clusterName: ${north_europe_cluster_name}
+  clusterName: ${cluster_name}
   replicas: 3
   template:
     spec:
       bootstrap:
         dataSecretName: ""
-      clusterName: ${north_europe_cluster_name}
+      clusterName: ${cluster_name}
       infrastructureRef:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: AzureManagedMachinePool
-        name: ${north_europe_cluster_name}
+        name: ${cluster_name}
         namespace: capi-workload-clusters
       version: v1.26.6
