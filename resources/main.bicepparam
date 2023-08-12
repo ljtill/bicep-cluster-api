@@ -1,15 +1,11 @@
 using './main.bicep'
 
 param settings = {
-  subscriptionId: ''
   resourceGroups: {
     services: {
       name: 'Services'
-      location: ''
+      location: 'uksouth'
       resources: {
-        managedIdentity: {
-          name: ''
-        }
         containerRegistry: {
           name: ''
         }
@@ -18,8 +14,11 @@ param settings = {
     }
     management: {
       name: 'Management'
-      location: ''
+      location: 'uksouth'
       resources: {
+        managedIdentity: {
+          name: ''
+        }
         containerService: {
           name: ''
           node: 'Internal'
@@ -29,7 +28,18 @@ param settings = {
     }
     workloads: {
       name: 'Workloads'
-      location: ''
+      location: 'uksouth'
+      publicKey: ''
+      clusters: [
+        {
+          name: ''
+          location: 'northeurope'
+        }
+        {
+          name: ''
+          location: 'westeurope'
+        }
+      ]
       tags: {}
     }
   }

@@ -8,8 +8,14 @@ targetScope = 'resourceGroup'
 // Resources
 // ---------
 
+// Managed Identity
+resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: resources.managedIdentity.name
+  location: resourceGroup().location
+}
+
 // Kubernetes Service
-resource cluster 'Microsoft.ContainerService/managedClusters@2023-06-02-preview' = {
+resource managedCluster 'Microsoft.ContainerService/managedClusters@2023-06-02-preview' = {
   name: resources.containerService.name
   location: resourceGroup().location
   sku: {
@@ -65,18 +71,18 @@ resource cluster 'Microsoft.ContainerService/managedClusters@2023-06-02-preview'
   }
 }
 
+// Flux
 resource flux 'Microsoft.KubernetesConfiguration/extensions@2023-05-01' = {
   name: 'flux'
-  scope: cluster
+  scope: managedCluster
   properties: {
     extensionType: 'Microsoft.Flux'
     autoUpgradeMinorVersion: true
   }
 }
-
 resource management 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05-01' = {
   name: 'management'
-  scope: cluster
+  scope: managedCluster
   properties: {
     scope: 'cluster'
     namespace: 'cluster-config'
@@ -122,17 +128,16 @@ resource management 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-0
     }
   }
 }
-
-resource workloads 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05-01' = {
-  name: 'workloads'
-  scope: cluster
+resource workloads 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05-01' = [for cluster in settings.resourceGroups.workloads.clusters: {
+  name: 'workloads-${cluster.location}'
+  scope: managedCluster
   properties: {
     scope: 'cluster'
     namespace: 'cluster-config'
     sourceKind: 'GitRepository'
     kustomizations: {
       'cluster-api': {
-        path: 'clusters/workloads'
+        path: 'clusters/workloads/${cluster.location}'
         timeoutInSeconds: 600
         syncIntervalInSeconds: 600
         retryIntervalInSeconds: 600
@@ -143,7 +148,11 @@ resource workloads 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05
           substituteFrom: [
             {
               kind: 'ConfigMap'
-              name: 'workloads'
+              name: 'workloads-global'
+            }
+            {
+              kind: 'ConfigMap'
+              name: 'workloads-${cluster.location}'
             }
           ]
         }
@@ -159,20 +168,47 @@ resource workloads 'Microsoft.KubernetesConfiguration/fluxConfigurations@2023-05
   dependsOn: [
     management
   ]
+}]
+
+// -------
+// Modules
+// -------
+
+// Global
+module manifest './manifests/global.bicep' = {
+  name: 'Kubernetes'
+  params: {
+    defaults: defaults
+    settings: settings
+    kubeConfig: managedCluster.listClusterAdminCredential().kubeconfigs[0].value
+  }
 }
 
-// ---------
-// Resources
-// ---------
+// Workloads
+module credentials './credentials.bicep' = [for (cluster, count) in settings.resourceGroups.workloads.clusters: {
+  name: 'Microsoft.ManagedIdentity.${count}'
+  scope: resourceGroup(settings.resourceGroups.workloads.name)
+  params: {
+    defaults: defaults
+    settings: settings
+    identityName: cluster.name
+    clusterName: resources.containerService.name
+  }
+}]
+module manifests './manifests/cluster.bicep' = [for (workloadCluster, count) in settings.resourceGroups.workloads.clusters: {
+  name: 'Kubernetes.${count}'
+  params: {
+    defaults: defaults
+    settings: settings
+    kubeConfig: managedCluster.listClusterAdminCredential().kubeconfigs[0].value
+    clusterName: workloadCluster.name
+    clusterLocation: workloadCluster.location
+  }
+}]
 
-resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
-  name: settings.resourceGroups.services.resources.managedIdentity.name
-  scope: resourceGroup(settings.resourceGroups.services.name)
-}
-
-// ----------
-// Parameters
-// ----------
+// ---------
+// Variables
+// ---------
 
 var resources = settings.resourceGroups.management.resources
 
