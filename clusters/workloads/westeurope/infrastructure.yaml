@@ -29,7 +29,7 @@ metadata:
   name: ${cluster_name}
   namespace: capi-workload-clusters
 spec:
-  mode: System
+  mode: ${cluster_name}
   sku: standard_d8s_v5
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
