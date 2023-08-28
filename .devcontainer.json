@@ -1,6 +1,6 @@
 {
     "name": "Cluster API",
-    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "image": "mcr.microsoft.com/devcontainers/base:jammy",
     "features": {
         "ghcr.io/devcontainers/features/azure-cli:1": {
             "installBicep": true
